@@ -1,3 +1,4 @@
+// https://metmuseum.github.io/
 import axios from 'axios';
 
 type SearchResult = {
@@ -88,15 +89,13 @@ const metmuseum = axios.create({
 });
 
 export async function fetchPaintings(
-	searchTerm: string,
 	numberOfPaintings: number
 ): Promise<Painting[]> {
 	const {data: searchResult}: {data: SearchResult} = await metmuseum.get(
-		'/search',
+		'/objects',
 		{
 			params: {
-				q: searchTerm,
-				hasImages: true,
+				departmentIds: 11,
 			},
 		}
 	);
@@ -119,6 +118,6 @@ export async function fetchPaintings(
 			!!painting &&
 			!!painting.primaryImage &&
 			painting.isPublicDomain &&
-			painting.medium.toLowerCase().includes('oil')
+			painting.classification == 'Paintings'
 	);
 }

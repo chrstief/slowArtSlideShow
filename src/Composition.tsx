@@ -1,7 +1,7 @@
 import {Img,CalculateMetadataFunction} from 'remotion';
 import {linearTiming, TransitionSeries} from '@remotion/transitions';
 import {fade} from '@remotion/transitions/fade';
-import {type Painting, fetchPaintings} from './fetchPainting'
+import {type Painting, fetchPaintings} from './metmuseumApi'
 
 
 export type MyCompProps = {
@@ -15,7 +15,7 @@ export type MyCompProps = {
 export const calcMyCompMetadata: CalculateMetadataFunction<MyCompProps> = async ({
   props,
 }) => {
-  const paintings = await fetchPaintings('painting',props.numberOfPaintings);
+  const paintings = await fetchPaintings(props.numberOfPaintings);
   const durationInSeconds = (props.paintingDurationInSeconds-props.transitionDurationInSeconds) * paintings.length;
  
   return {
@@ -34,8 +34,7 @@ export const MyComposition:React.FC<MyCompProps> = (props) => {
 				return (
 					<>
 						<TransitionSeries.Sequence durationInFrames={props.paintingDurationInSeconds*props.fps}>
-							<Img style={{margin:'auto',width:'100%',height:'100%', objectFit:'contain', backgroundColor:'white'}} src={painting.primaryImage} />;
-							{/* <h1>{painting.medium}</h1> */}
+							<Img style={{margin:'auto',width:'100%',height:'100%', objectFit:'contain', backgroundColor:'black'}} src={painting.primaryImage} />
 						</TransitionSeries.Sequence>
 						<TransitionSeries.Transition
 							presentation={fade()}
